@@ -7,7 +7,7 @@
 1. <font color=red>slice</font>支持比数组更多的操作，<font color=red>内建的append方法，返回新的slice</font>。copy方法复制。slice可以组成多维数据结构，内部的维数可以不同。用make初始化一个slice。
 1. map， make初始化一个map，内建的<font color=red>delete方法删除一个kv对</font>，当从map中取值时，可选的第二个参数指示这个键是否存在。
 1. range用于迭代各种数据结构。<font color=red>range在字符串中迭代unicode编码，第一个返回值是rune的起始字节位置，然后是rune自己</font>。
-    ```golang
+    ```go
     for i, v := range "go"{
     //0 103
     //1 111
@@ -23,33 +23,33 @@
 1. 结构体有多个成员，并实现了Error方法，即<font color=red>实现了error接口类型，函数以error返回，通过对返回值的断言为结构体类型，可访问其成员</font>。
 
 1. 这里的 Scanln 代码需要我们在程序退出前按下任意键结束。
-    ```golang
+    ```go
     var input string
     fmt.Scanln(&input)
    ```   
 1. 默认通道是 无缓冲 的，这意味着只有在对应的<font color=red>接收（<- chan）通道准备好接收时，才允许进行发送</font>（chan <-）。可缓存通道允许在没有对应接收方的情况下，缓存限定数量的值。
 1. Go 的通道选择器 让你可以同时等待多个通道操作，<font color=red>常规的通过通道发送和接收数据是阻塞的</font>。然而，我们可以使用带一个 <font color=red>default 子句的 select 来实现非阻塞 的发送、接收</font>，甚至是非阻塞的多路 select。
 1. 关闭 一个通道意味着不能再向这个通道发送值了。这个特性可以用来给这个通道的接收方传达工作已经完成的信息。使用 j, more := <- jobs 循环的从jobs 接收数据。在接收的这个特殊的二值形式的值中，<font color=red>如果 jobs 已经关闭了，并且通道中所有的值都已经接收完毕，那么 more 的值将是 false</font>。
-    ```golang
+    ```go
     jobs := make(chan int, 5)
     j, more := <-jobs
     if more {
     }
     ```
 1. 这个 range 迭代从 queue 中得到的每个值。因为我们在前面 close 了这个通道，这个迭代会在接收完 2 个值之后结束。如果我们没有 close 它，我们将在这个循环中继续阻塞执行，等待接收第三个值.
-    ```golang
+    ```go
     for elem := range queue {
         fmt.Println(elem)
     }
     ```
 1. 直到这个<font color=red>定时器的通道 C 明确的发送了定时器失效的值之前，将一直阻塞</font>。
-    ```golang
+    ```go
     timer1 := time.NewTimer(time.Second * 2)
     <-timer1.C 
     stop2 := timer2.Stop() //可提前关闭这个定时器。
     ```
 1. 定时器 是当你想要在未来某一刻执行一次时使用的 - 打点器 则是当你想要在固定的时间间隔重复执行准备的。
-    ```golang
+    ```go
     //新建打点器，每500ms，给t一个信号、1600ms后关闭。
     ticker := time.NewTicker(time.Millisecond * 500)
     go func() {
@@ -63,7 +63,7 @@
 
 1. 在这个例子中，我们将看到如何使用 Go 协程和通道实现一个工作池 。<font color=red>9个任务由3个协程去完成</font>。
 
-    ```golang
+    ```go
     package main
     import "fmt"
     import "time"
@@ -95,7 +95,7 @@
     }
     ```
 1. 速率限制是一个重要的控制服务资源利用和质量的途径。Go 通过 Go 协程、通道和打点器优美的支持了速率限制（阻塞一定时间）。
-    ```golang
+    ```go
     package main
     import "time"
     import "fmt"
@@ -137,21 +137,21 @@
     }
     ```
 1. runtime.Gosched()，<font color=red>让当前goroutine让出CPU</font>，好让其它的goroutine获得执行的机会(在自己控制的cpu范围之内让出cpu执行权限，而不是无限制让出)
-    ```golang
+    ```go
     //原子操作
     atomic.AddUint64(&ops, 1)
     //允许其它 Go 协程的执行
     runtime.Gosched()
     ```
 1. 可以使用一个互斥锁来在 Go 协程间安全的访问数据。
-    ```golang  
+    ```go  
     var mutex = &sync.Mutex{} 
     mutex.Lock()
     //xxxx
     mutex.Unlock()
     ```
 1. 于 Go <font color=red>协程的实现比基于互斥锁的稍复杂但效率更高</font>。在这个例子中，state 将被一个单独的 Go 协程拥有。select能够保证数据在并行读取时不会混乱。
-    ```golang
+    ```go
     package main
     import (
         "fmt"
@@ -219,7 +219,7 @@
     }
     ```
 1. 注意排序是原地更新的，所以他会<font color=red>改变给定的序列并且不返回一个新值</font>。
-    ```golang
+    ```go
         strs := []string{"c", "a", "b"}
         sort.Strings(strs)
         fmt.Println("Strings:", strs)
@@ -232,7 +232,7 @@
 1. panic 意味着有些出乎意料的错误发生。
 1. Defer 被用来确保一个函数调用在程序执行结束前执行。同样用来执行一些清理工作。 defer 用在像其他语言中的ensure 和 finally用到的地方。
 1. 标准库的strings包提供了很多字符串相关的函数：
-    ```golang
+    ```go
     package main
     import s "strings"
     import "fmt"
@@ -258,7 +258,7 @@
     }
     ```
 1. 字符串格式化：
-    ```golang
+    ```go
     package main
     import "fmt"
     import "os"
@@ -317,7 +317,7 @@
     }
     ```
 1. <font color=red>正则表达式</font>：
-    ```golang
+    ```go
     package main
     import "bytes"
     import "fmt"
@@ -361,7 +361,7 @@
     }
     ```
 1. 可以解码 JSON 值到自定义类型。这个功能的好处就是可以为我们的程序带来额外的类型安全加强，并且消除在访问数据时的类型断言。
-    ```golang
+    ```go
         str := `{"page": 1, "fruits": ["apple", "peach"]}`
         res := &Response2{}
         json.Unmarshal([]byte(str), &res)
@@ -373,7 +373,7 @@
         enc.Encode(d)
     ```
 1. go的时间支持
-    ```golang
+    ```go
     package main
     import "fmt"
     import "time"
@@ -416,7 +416,7 @@
     }
     ```
 1. 分别使用带 Unix 或者 UnixNano 的 time.Now来获取从自协调世界时起到现在的秒数或者纳秒数。
-    ```golang
+    ```go
         now := time.Now()
         secs := now.Unix()
         nanos := now.UnixNano()
@@ -425,7 +425,7 @@
         fmt.Println(time.Unix(0, nanos))
     ```
 1. 时间的格式化和解析,注意这个特殊时间2006年1月2日下午3时4分5秒
-    ```golang
+    ```go
     //这里是一个基本的按照 RFC3339 进行格式化的例子，使用对应模式常量。
         t := time.Now()
         p(t.Format(time.RFC3339))//2014-04-15T18:00:15-07:00
@@ -444,7 +444,7 @@
         p(t2)
     ```
 1. 随机数
-    ```golang
+    ```go
     //rand.Float64 返回一个64位浮点数 f，0.0 <= f <= 1.0。
         fmt.Println(rand.Float64())
     //这个技巧可以用来生成其他范围的随机浮点数，例如5.0 <= f <= 10.0
@@ -456,7 +456,7 @@
         r1 := rand.New(s1)
     ```
 1. 数字解析,内置的 <font color=red>strconv 包提供了数字解析功能</font>。
-    ```golang
+    ```go
     package main
     import "strconv"
     import "fmt"
@@ -483,7 +483,7 @@
     }
     ```
 1. URL解析
-    ```golang
+    ```go
     package main
     import "fmt"
     import "net/url"
@@ -519,7 +519,7 @@
     ```
 1. 产生一个散列值得方式是 sha1.New()，sha1.Write(bytes)，然后 sha1.Sum([]byte{})。
 1. Base64编码, Go 同时支持标准的和 URL 兼容的 base64 格式。
-    ```golang
+    ```go
     //编码需要使用 []byte 类型的参数，所以要将字符串转成此类型。
         sEnc := b64.StdEncoding.EncodeToString([]byte(data))
         fmt.Println(sEnc)
@@ -534,7 +534,7 @@
         fmt.Println(string(uDec))
     ```
 1. <font color=red>读文件,ioutil,os,io,bufio等包支持</font>
-    ```golang
+    ```go
     func main() {
     //大部分基本的文件读取任务是将文件内容读取到内存中。ioutil包
         dat, err := ioutil.ReadFile("/tmp/dat")
@@ -574,7 +574,7 @@
         f.Close()
     ```
 1. <font color=red>写文件，ioutil，os,bufio等包</font>。
-    ```golang
+    ```go
     func main() {
     //如写入一个字符串（或者只是一些字节）到一个文件。ioutil包
         d1 := []byte("hello\ngo\n")
@@ -604,7 +604,7 @@
     }
     ```
 1. grep 和 sed 是常见的行过滤器。处理标志输入流的输入，将结果输出到标准输出的功能。
-    ```golang
+    ```go
     func main() {
     //对 os.Stdin 使用一个带缓冲的 scanner，让我们可以直接使用方便的 Scan 方法来直接读取一行，每次调用该方法可以让 scanner 读取下一行。
         scanner := bufio.NewScanner(os.Stdin)
@@ -623,13 +623,13 @@
     }
     ```
 1. 命令行参数
-    ```golang
+    ```go
     //os.Args 提供原始命令行参数访问功能。注意，切片中的第一个参数是该程序的路径，并且 os.Args[1:]保存所有程序的的参数。
         argsWithProg := os.Args
         argsWithoutProg := os.Args[1:]
     ```
 1. 命令行标志是命令行程序指定选项的常用方式。例如，在 wc -l 中，这个 -l 就是一个命令行标志。
-    ```golang
+    ```go
     package main
     //Go 提供了一个 flag 包，支持基本的命令行标志解析。我们将用这个包来实现我们的命令行程序示例。
     import "flag"
@@ -655,7 +655,7 @@
     }
     ```
 1. 设置，<font color=red>获取并列举环境变量</font>
-    ```golang
+    ```go
     //使用 os.Setenv 来设置一个键值队。使用 os.Getenv获取一个键对应的值。如果键不存在，将会返回一个空字符串。
         os.Setenv("FOO", "1")
         fmt.Println("FOO:", os.Getenv("FOO"))
@@ -669,7 +669,7 @@
     }
     ```
 1. 生成进程
-    ```golang
+    ```go
     package main
     import "fmt"
     import "io/ioutil"
@@ -707,7 +707,7 @@
     }
     ```
 1. 想用其他的（也许是非 Go 程序）来完全替代当前的 Go 进程。这时候，我们可以使用经典的 exec方法的 Go 实现。
-    ```golang
+    ```go
         binary, lookErr := exec.LookPath("ls")
         if lookErr != nil {
             panic(lookErr)
@@ -717,7 +717,7 @@
         execErr := syscall.Exec(binary, args, env)
     ```
 1. 用<font color=red>通道处理信号实现优雅退出</font>。<font color=red>signal.Notify</font> 注册这个给定的通道用于<font color=red>只接收特定信号</font>。
-    ```golang
+    ```go
     package main
     import "fmt"
     import "os"

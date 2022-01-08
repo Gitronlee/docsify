@@ -6,7 +6,7 @@
 2. new底层调用的是 runtime.newobject 申请内存空间， newobject 的底层调用 mallocgc 在**堆上** 按照 type.size 的大小申请内存，因此new只会为结构体申请一片内存空间，不会为结构体中的指针申请内存空间，所以对成员指针解引用操作，就因为访问无效的内存空间而出现 panic。
 
 3. 例如 由于切片的底层为：
-    ```golang
+    ```go
     type slice struct {
     array unsafe.Pointer    //指向用于存储切片数据的指针
     len   int

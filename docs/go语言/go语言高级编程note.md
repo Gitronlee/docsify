@@ -21,7 +21,7 @@
 9. 当一个数组变量被赋值或者被传递的时候，实际上会复制整个数组。
 10. 若b是指向数组a的指针，通过b访问数组中元素的写法和a访问数组中元素的写法是类似的，<font color=red>指针语法糖</font>
 11. 还可以通过for range来<font color=red>迭代数组指针</font>指向的数组元素。
-    ```golang
+    ```go
     var a = {1,2,3}//a是一个数组
     //b是指向数组的指针
     fmt. Println(a[0],a[1])//打印数组的前两个元素
@@ -33,7 +33,7 @@
 
 12. 对数组类型来说，len()和cap()函数返回的结果始终是一样的，都是对应数组类型的长度。
 13. 用<font color=red>for range方式迭代</font>的性能可能会更好一些，因为这种迭代可以<font color=red>保证不会出现数组越界</font>的情形，每轮迭代对数组元素的访问时可以省去对下标越界的判断
-    ```golang
+    ```go
     //长度为0的数组（空数组）在内存中并不占用空间
     var times [5][0]int
     for i, v rang times{
@@ -64,7 +64,7 @@
 7. 我们不仅可以控制最大的并发数目，而且可以<font color=green>通过带缓存通道的使用量和最大容量比例来判断程序运行的并发率。当通道为空时可以认为是空闲状态，当通道满了时可以认为是繁忙状态</font>，这对于后台一些低级任务的运行是有参考价值的。
 8. 当有多种方式可解决同一问题时，可以通过适当开启一些冗余的线程，尝试用不同途径（协程）去解决同样的问题，最终<font color=green>以赢者为王的方式提升了程序的相应性能</font>。
 9. 并发版本的素数筛
-    ```golang
+    ```go
     package main
 
     import "fmt"
@@ -108,7 +108,7 @@
 11. 通过close()来关闭cancel通道，向多个Goroutine广播退出的指令。不过这个程序依然不够稳健：当每个Goroutine收到退出指令退出时一般会进行一定的清理工作，但是退出的清理工作并不能保证被完成，因为main线程并没有等待各个工作Goroutine退出工作完成的机制,可以结合sync.WaitGroup来改进.
 12. 在前面素数筛的例子中，GenerateNatural和PrimeFilter()函数内部都启动了新的Goroutine，当main()函数不再使用通道时，后台Goroutine有泄漏的风险。我们可以通过context包来避免这个问题，当main()函数完成工作前，通过<font color=green>调用cancel()来通知后台Goroutine退出，这样就避免了Goroutine的泄漏</font>,下面是改进的素数筛实现：
 
-    ```golang
+    ```go
     // 返回生成自然数序列的管道: 2, 3, 4, ...
     func GenerateNatural(ctx context.Context) chan int {
         ch := make(chan int)
@@ -178,7 +178,7 @@ Go语言通过自带的一个叫CGO的工具来支持C语言函数调用，同�
 
 1. 代码<font color=blue>通过import "C"语句启用CGO特性</font>
 
-    ```golang
+    ```go
     package main
     //#include <stdio.h>
     import "C"
@@ -191,7 +191,7 @@ Go语言通过自带的一个叫CGO的工具来支持C语言函数调用，同�
 2. 我们也可以将SayHello()函数放到当前目录下的一个C语言源文件中（扩展名必须是.c）
 然后在CGO部分先声明SayHello()函数，其他部分不变：
 既然SayHello()函数已经放到独立的C文件中了，我们自然可以将对应的C文件编译打包为静态库或动态库文件供使用
-    ```golang
+    ```go
     package main
     //void SayHello(const char* s)
     import "C"
