@@ -1,6 +1,10 @@
 # 一文读完GobyExample
 
 1. for是golang中唯一的循环结构。
+1. 简短模式，形如：x := 100。有限制：
+   - 必须使用显示初始化；
+   - 不能提供数据类型，编译器会自动推导；
+   - <font color=red>只能在函数内部使用简短模式</font>；
 1. if else 需要注意else的代码格式：`}else{...`
 1. switch case ,在一个case中可以用逗号分隔多个条件，不带表达式的switch是实现if/else的另一种方式
 1. len(a)获取数组的长度
@@ -15,8 +19,10 @@
     }
    ```   
 1. 函数是一等公民，支持多返回值，变参函数：当slice有多个值时，想把它们作<font color=red>变参使用，需要`fun(slice...)`的方式展开</font>。
+1. 在函数有多个返回值时，只要有一个返回值有命名，其他的也必须命名。如果有多个返回值必须加上括号()；如果<font color=red>只有一个返回值且命名也必须加上括号</font>()
 1. 支持通过闭包来使用匿名函数。<font color=red>所谓闭包，就是返回值是一个函数，但是这个函数会带上自己的变量值</font>。
 1. 指针，解引用*后赋值操作，&取地址。
+1. 相同类型的结构体才能够进行比较，结构体是否相同不但与属性类型有关，<font color=red>还与属性顺序相关</font>。如果 struct 的<font color=red>所有成员都可以比较，则该 struct 就可以通过 == 或 != 进行比较是否相等</font>，比较时逐个项进行比较，如果每一项都相等，则两个结构体才相等，否则不相等；常见的有 bool、数值型、字符、指针、数组等是可比较的，像切片、map、函数等是不能比较的。
 1. 结构体指针与结构体访问成员的方式一致都是 . 。可以定义结构体的方法，可以根据值类型或指针类型的结构器定义方法。
 1. <font color=red>接口是方法特征的命名集合</font>。结构体类型完全实现了接口的所有方法时，可以使用其实例为接口类型赋值。
 1. errors.New()构造一个使用给定的错误信息的基本error值。<font color=red>实现了Error方法，即实现了error接口类型</font>。注意在 if行内的错误检查代码，在 Go 中是一个普遍的用法。
@@ -42,6 +48,7 @@
         fmt.Println(elem)
     }
     ```
+1. for range 循环的时候会创建每个元素的副本，<font color=red>而不是元素的引用</font>，所以 m[key] = &val 取的都是变量 val 的地址，所以最后 map 中的所有元素的值都是变量 val 的地址，因为最后 val 被赋值为3，所有输出都是3.
 1. 直到这个<font color=red>定时器的通道 C 明确的发送了定时器失效的值之前，将一直阻塞</font>。
     ```go
     timer1 := time.NewTimer(time.Second * 2)
@@ -230,7 +237,7 @@
     ```
 1. 在xxxx类型中<font color=red>实现了 sort.Interface 的 Len，Less和 Swap 方法</font>，这样我们就可以使用 sort 包的通用Sort 方法,```sort.Sort(xxxx)```
 1. panic 意味着有些出乎意料的错误发生。
-1. Defer 被用来确保一个函数调用在程序执行结束前执行。同样用来执行一些清理工作。 defer 用在像其他语言中的ensure 和 finally用到的地方。
+1. Defer 被用来确保一个函数调用在程序执行结束前执行。同样用来执行一些清理工作。 defer 用在像其他语言中的ensure 和 finally用到的地方。当出现 panic 语句的时候，会先按照 defer 的<font color=red>后进先出</font>的顺序执行，最后才会执行panic
 1. 标准库的strings包提供了很多字符串相关的函数：
     ```go
     package main

@@ -2,9 +2,9 @@
  * @Author: ronlee
  * @Date: 2022-01-07 09:27:56
  * @LastEditors: ronlee
- * @LastEditTime: 2022-01-07 16:28:21
+ * @LastEditTime: 2022-01-09 16:17:18
  * @Description: file content
- * @FilePath: \_1_learn\docsify\index.html
+ * @FilePath: \_1_learn\gitronlee.github.io\index.html
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -367,17 +367,18 @@
             maxLevel: 6,//最大的内容表级别
             //subMaxLevel: 6,//在自定义边栏中添加目录（TOC)
             externalLinkTarget: '_blank', //外链打开方式：_blank表示在新标签页中打开
-            coverpage: true,
+            coverpage: false,
             onlyCover: true,
             topMargin: 60,//调整top
             //executeScript: true,//执行页面上的脚本，仅解析第一个脚本标签
             search: {
-                paths: 'auto',
+                paths: "auto",
                 placeholder: '🔍 搜索',
                 noData: '😒 找不到结果',
                 // Headline depth, 1 - 6
                 depth: 6,
                 maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+                hideOtherSidebarContent: false, // 是否隐藏其他侧边栏内容
             },//添加搜索框
             // pagination: {
             //     previousText: '上一章节',

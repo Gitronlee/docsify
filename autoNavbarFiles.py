@@ -2,25 +2,25 @@
 Author: ronlee
 Date: 2022-01-07 11:09:16
 LastEditors: ronlee
-LastEditTime: 2022-01-07 22:46:55
+LastEditTime: 2022-01-09 16:24:58
 Description: 自动生成导航栏和侧边栏
-FilePath: \_1_learn\docsify\autoNavbarFiles.py
+FilePath: \_1_learn\gitronlee.github.io\autoNavbarFiles.py
 '''
 import os
 import sys
 import re
 import shutil
-new_line = ""  # 全局变量
+new_line = "  * [首页](README)"  # 全局变量
+readmetext = "# 本站目录\n\n"
 
 
-def write2file(fname, rmovestr):
-    global new_line
-    # print(new_line.replace(rmovestr+"\\", ""))
+def write2file(fname, newsidebartext, rmovestr):
     src_fobj = open(fname, 'a+', encoding='utf-8', errors='ignore')
     src_fobj.seek(0)
     src_fobj.truncate()
     src_fobj.flush()
-    src_fobj.write(new_line.replace(rmovestr+"\\", "/").replace("\\", "/"))
+    src_fobj.write(newsidebartext.replace(
+        rmovestr+"\\", "/").replace("\\", "/"))
 
     src_fobj.close()
 
@@ -62,31 +62,35 @@ def eachFile(filepath, path):
         newDir = os.path.join(filepath, s)  # 将文件命加入到当前文件路径后面
         # print("s:", s)
         global new_line
+        global readmetext
         if os.path.isfile(newDir):  # 如果是文件
             if newDir.endswith('.md'):  # 如果是md文件
                 new_line = new_line + GetFirstLine(newDir)
+                readmetext = readmetext + GetFirstLine(newDir)
         elif s == "assets":
             print("newDir:", newDir)
             copy2assets(newDir, path)
         elif hasMDFile(newDir):
             # 如果不是文件，只递归有md文件的目录
-            new_line = new_line + "* " + s + "\n\n"
+            new_line = new_line + "\n* " + s + "\n"
+            readmetext = readmetext + "\n## " + s + "\n"
             eachFile(newDir, path)
 
 
 if __name__ == '__main__':
     path, filename = os.path.split(os.path.abspath(sys.argv[0]))
     print("当前路径：", path)
-    newpath = os.path.join(path, "_sidebar.md")
-    newpath2 = os.path.join(path, "_navbar.md")
-    oldpath = os.path.join(path, "_sidebar.md.bk")
+    newsidebarpath = os.path.join(path, "_sidebar.md")
+    newnavbarpath = os.path.join(path, "_navbar.md")
+    oldsidebarpath = os.path.join(path, "_sidebar.md.bk")
 
     # path = os.path.abspath('.')
     # 删除旧备份，保存新备份
-    os.popen(f'del {oldpath}')
-    os.popen(f'copy {newpath} {oldpath}')
+    os.popen(f'del {oldsidebarpath}')
+    os.popen(f'copy {newsidebarpath} {oldsidebarpath}')
     # 生成新的侧边栏
     eachFile(os.path.join(path, 'docs'), os.path.join(path, "assets"))
-    write2file(os.path.join(path, "_sidebar.md"), path)
-    os.popen(f'copy {newpath} {newpath2}')
+    write2file(os.path.join(path, "_sidebar.md"), new_line, path)
+    write2file(os.path.join(path, "README.md"), readmetext, path)
+    os.popen(f'copy {newsidebarpath} {newnavbarpath}')
     # todo：将每个assets下的图片文件放到根目录的assets文件夹下
