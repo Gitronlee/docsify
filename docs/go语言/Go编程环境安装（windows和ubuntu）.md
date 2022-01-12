@@ -48,6 +48,7 @@ sudo apt install golang-go
 PowerShell (Windows)
 # 配置 GOPROXY 环境变量
 $env:GOPROXY = "https://goproxy.io,direct"
+$env:GO111MODULE=on
 # 还可以设置不走 proxy 的私有仓库或组，多个用逗号相隔（可选）
 $env:GOPRIVATE = "git.mycompany.com,github.com/my/private"
 ```

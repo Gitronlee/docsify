@@ -34,7 +34,7 @@ func Conv2PDF(reportsNum int) {
 
 限制程序结束后，以CTRL-C退出。Notify函数让signal包将输入信号转发到c。如果没有列出要传递的信号，会将所有输入信号传递到c；否则只传递列出的输入信号。可通过对c的取阻塞之。
 
-```golang
+```go
 c := make(chan os.Signal, 1)
 signal.Notify(c, os.Interrupt, os.Kill)
 s := <-c
@@ -45,7 +45,7 @@ fmt.Println("Got signal:", s)
 
 viper的配置需要注意结构体成员的对外可见性（首字母大写）。Unmarshal到结构体的方式对一些map形式可以保证其顺序为预期。
 
-```golang
+```go
 workDir, _ := os.Getwd()
 viper.SetConfigName("application")
 viper.SetConfigType("yml")
@@ -80,7 +80,7 @@ UTITlist := viper.GetStringSlice(viper.GetString("xxx") + "." + k + "." + viper.
 
 扩展名相关和路径拼接。
 
-```golang
+```go
 ext := filepath.Ext(outPath)//获取扩展名
 path.Join(WorkDir, "report_html", v+".html")//路径拼接
 ```
@@ -89,7 +89,7 @@ path.Join(WorkDir, "report_html", v+".html")//路径拼接
 
 cmd里执行命令，打印时可能有乱码。
 
-```golang
+```go
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 //fmt.Println(thisHtmlToPdf.prams)
@@ -113,7 +113,7 @@ cmd.Wait()
 return bytes, err
 ```
 
-```golang
+```go
 cmdOutput, err := exec.Command(viper.GetString("clocpath"), paths).Output()
 if err != nil {
     log.Fatal(err)
@@ -204,7 +204,7 @@ func ConvertByte2String(byte []byte, charset Charset) string {
 
 ## "strconv"
 
-```golang
+```go
 i, err := strconv.ParseFloat(res, 64)//字符串转float64
 ```
 
@@ -235,7 +235,7 @@ func AddaCell(val string, row document.Row, cols int) {
 
 selector选择器使用
 
-```golang
+```go
 f, _ := ioutil.ReadFile(url)
 dom, err := goquery.NewDocumentFromReader(strings.NewReader(string(f)))
 if err != nil {
@@ -262,7 +262,7 @@ log.SetOutput(f1)
 
 ## "github.com/fatih/color"
 
-```golang
+```go
 c := color.New(color.FgCyan)//华丽显示
 c.Printf(xxxx)
 ```
