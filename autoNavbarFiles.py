@@ -2,7 +2,7 @@
 Author: ronlee
 Date: 2022-01-07 11:09:16
 LastEditors: ronlee
-LastEditTime: 2022-01-09 22:46:49
+LastEditTime: 2022-01-19 09:33:14
 Description: 自动生成导航栏和侧边栏
 FilePath: \_1_learn\gitronlee.github.io\autoNavbarFiles.py
 '''
@@ -94,4 +94,7 @@ if __name__ == '__main__':
     write2file(os.path.join(path, "_sidebar.md"), new_line, path)
     write2file(os.path.join(path, "README.md"), readmetext, path)
     os.popen(f'copy {newsidebarpath} {newnavbarpath}')
-    # todo：将每个assets下的图片文件放到根目录的assets文件夹下
+
+    # 启动docsify
+    os.popen("docsify serve " + path)
+    print("本地访问地址：http://localhost:3000/")

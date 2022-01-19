@@ -17,5 +17,6 @@
   * [Git踩坑记录](/docs/其他/git命令及踩坑简单记录.md)
   * [Linux从小白到小白](/docs/其他/Linux从小白到小白.md)
   * [Ubuntu中安装Docker及运行Redis和Mysql](/docs/其他/Ubuntu中安装Docker及运行Redis和Mysql.md)
+  * [vue项目起步及知识点小记](/docs/其他/vue项目起步及知识点小记.md)
   * [hash索引、B+树索引、主键索引、非主键索引](/docs/其他/【面试】hash索引、B+树索引、主键索引、非主键索引.md)
   * [搭建docsify教程](/docs/其他/一步一步搭建docsify.md)
