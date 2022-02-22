@@ -12,6 +12,10 @@
   * [简述Golang的map实现原理](/docs/go语言/【面试】简述map实现原理.md)
   * [一文读完GobyExample](/docs/go语言/一文读完GobyExample.md)
 
+## Leetcode
+  * [1. 两数之和](/docs/Leetcode/1.两数之和.md)
+  * [295. 数据流的中位数](/docs/Leetcode/295.数据流的中位数.md)
+
 ## python
   * [免安装Python Tips](/docs/python/免安装PythonTips.md)
 
